@@ -5,8 +5,9 @@ import { TokenContext } from "../Context/TokenContext";
 import Navbar from "../Components/Navbar";
 import Card from "../Components/Card";
 
-import Iphone from "../assets/iphone-14-pro-finish-select-202209-6-7inch-deeppurple.jpg";
-import SonyHeadphones from '../assets/gsmarena_001.jpg'
+
+import data from '../Data/data'
+
 
 export default function Home() {
   const { contract } = useContext(TokenContext);
@@ -15,10 +16,30 @@ export default function Home() {
     <>
       <Navbar />
 
-      <button className=" absolute right-1 bottom-1 bg-sky-500 p-2" onClick={}>Become a Partner</button>
+    
+
+    <div >
+      <button className=" fixed right-4 bottom-10 bg-sky-500 p-2">Become a Partner</button>
 
       <div className="grid grid-cols-4 gap-4">
-        {/* Iphone */}
+
+      {
+        data.map((d)=>
+        {
+          
+          return (
+          <div className="col-span-1">
+          <Card
+            image={d.img}
+            name={d.name}
+            price={d.price}
+          />
+        </div>
+          )
+        })
+      }
+
+{/*         
         <div className="col-span-1">
           <Card
             image={Iphone}
@@ -26,15 +47,81 @@ export default function Home() {
             price="₹ 1,27,999"
           />
         </div>
-        {/* Iphone */}
-        <div className="col-span-1">
+          <div className="col-span-1">
           <Card
             image={SonyHeadphones}
             name="SONY Bluetooth Headset"
             price="₹ 22,990"
           />
         </div>
-      </div>
+        <div className="col-span-1 ">
+          <Card
+           image={trolley}
+           name="Trolley-Luggage"
+           price="₹ 12,999"
+          />
+        </div>
+        <div className="col-span-1">
+          <Card
+            image={TV}
+            name="SAMSUNG TV "
+            price="₹ 42,990"
+          />
+        </div><div className="col-span-1">
+          <Card
+            image={tshirt}
+            name="T-Shirt"
+            price="₹ 299"
+          />
+        </div><div className="col-span-1">
+          <Card
+            image={cycle}
+            name="FireFox cycle"
+            price="₹ 25,990"
+          />
+        </div>
+        <div className="col-span-1">
+          <Card
+            image={hoodies}
+            name="Hoodies"
+            price="₹ 999"
+          />
+          </div>
+          <div className="col-span-1">
+          <Card
+            image={shoes}
+            name="Ultra-Boot Shoes"
+            price="₹ 18,990"
+          />
+          </div><div className="col-span-1">
+          <Card
+            image={kalash}
+            name="Kalash"
+            price="₹ 399"
+          />
+          </div><div className="col-span-1">
+          <Card
+            image={shavers}
+            name="Shaver"
+            price="₹ 1,649"
+          />
+          </div><div className="col-span-1">
+          <Card
+            image={butter}
+            name="Peanut Butter"
+            price="₹ 250"
+          />
+          </div><div className="col-span-1">
+          <Card
+            image={car_washer}
+            name="Car Pressure Washer"
+            price="₹ 9,490"
+          />
+          </div> */}
+      </div>  
+
+     </div>    
+      
     </>
   );
 }
