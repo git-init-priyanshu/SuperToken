@@ -1,13 +1,17 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import detectEthereumProvider from "@metamask/detect-provider";
+import {ethers} from 'ethers'
 
 import { formatBalance } from "../Contract/utils/util";
 import metamask from "../assets/MetaMask_Fox.svg.png";
+import { TokenContext } from '../Context/TokenContext';
 
 export default function Navbar() {
+  const {setAccount, contract} = useContext(TokenContext)
 
+  // const [account, setAccount] = useState<string | null>(null);
+  const [tokenBalance, setTokenBalance] = useState<string>('0');
   const initialState = { accounts: ["none"], balance: "" };
-  const [account, setAccount] = useState<string | null>(null);
   const [wallet, setWallet] = useState(initialState);
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -76,6 +80,16 @@ export default function Navbar() {
 
   const disableConnect = Boolean(wallet) && isConnecting;
 
+  useEffect(() => {
+    const getTokenBalance = async()=>{
+      const tokens: bigint = contract && await contract.balanceOf(wallet.accounts[0])
+
+      setTokenBalance(tokens.toString());
+    }
+    getTokenBalance();
+  }, [contract])
+  
+
   return (
     <>
       <div className=" relative flex justify-between items-center h-16">
@@ -94,11 +108,8 @@ export default function Navbar() {
         {wallet.accounts[0] !== "none" ? (
           <div className=" flex">
             <div className="rounded-md bg-neutral-700 bg-opacity-80 p-2 flex items-center rounded-r-none border-r border-neutral-500 ">
-              {wallet.balance} MATIC
+              {tokenBalance} STK
             </div>
-            {/* <div className="display bg-neutral-700 bg-opacity-80 p-2 flex items-center border-r border-neutral-500">
-              ChainId: {formatChainAsNum(wallet.chainId)}
-            </div> */}
 
             <div className="rounded-md bg-neutral-700 bg-opacity-80 p-2 flex items-center rounded-l-none hover:cursor-pointer">
               <div className=" circle"></div>
