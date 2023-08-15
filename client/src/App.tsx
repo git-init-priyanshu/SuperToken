@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -16,20 +16,20 @@ import abi from "./Contract/abi.json";
 function App() {
   const {setContract} = useContext(TokenContext);
 
-  // const [contract, setContract] = useState<ethers.Contract | null>(null);
   const contractAddress = "0x2AFebB6e117f224a0Dbb15C26812B2ab98c27581";
 
   useEffect(() => {
     // Getting provider
-    const providerURL = import.meta.env.VITE_QUICKNODE_URI;
+    const providerURL:string = import.meta.env.VITE_QUICKNODE_URI;
     const provider = ethers.getDefaultProvider(providerURL!);
     // Metamask private key
-    const privateKey = import.meta.env.VITE_PRIVATE_KEY;
+    const privateKey:string = import.meta.env.VITE_PRIVATE_KEY;
     // Getting signer
     const signer = new ethers.Wallet(privateKey!, provider);
 
     // Getting the deployed contract
     const contract = new ethers.Contract(contractAddress, abi, signer);
+
     setContract(contract);
   }, []);
 
@@ -44,7 +44,7 @@ function App() {
   );
 
   return (
-    <div className="sm: mx-2 lg:  mx-10 ">
+    <div className="sm: mx-2 lg:mx-10 ">
       <ContextProvider>
         <RouterProvider router={router} />
       </ContextProvider>

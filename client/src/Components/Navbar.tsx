@@ -7,12 +7,11 @@ import metamask from "../assets/MetaMask_Fox.svg.png";
 import { TokenContext } from '../Context/TokenContext';
 
 export default function Navbar() {
-  const {setAccount, contract} = useContext(TokenContext)
+  const {wallet, setWallet, contract} = useContext(TokenContext)
 
   // const [account, setAccount] = useState<string | null>(null);
   const [tokenBalance, setTokenBalance] = useState<string>('0');
-  const initialState = { accounts: ["none"], balance: "" };
-  const [wallet, setWallet] = useState(initialState);
+  // const [wallet, setWallet] = useState(initialState);
   const [isConnecting, setIsConnecting] = useState(false);
 
   // Connecting to metamask
@@ -22,7 +21,7 @@ export default function Navbar() {
         updateWallet(accounts);
       } else {
         // if length 0, user is disconnected
-        setWallet(initialState);
+        setWallet({ accounts: ["none"], balance: "" });
       }
     };
 
@@ -70,7 +69,7 @@ export default function Navbar() {
       })
       .then((accounts: ["none"]) => {
         updateWallet(accounts);
-        accounts && setAccount(accounts[0]);
+        // accounts && setAccount(accounts[0]);
       })
       .catch((err: any) => {
         console.log(err);

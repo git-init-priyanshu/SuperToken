@@ -1,33 +1,38 @@
 import { createContext,useState, ReactNode } from "react";
 import {ethers} from 'ethers'
 
-type ProviderProps = {
-  children: ReactNode;
-};
+interface walletType{
+  accounts: [string];
+  balance: string;
+}
 
 interface ContextType {
-  account: string;
-  setAccount: React.Dispatch<React.SetStateAction<string>>;
+  wallet: walletType;
+  setWallet: React.Dispatch<React.SetStateAction<walletType>>;
   contract: ethers.Contract | null;
   setContract: React.Dispatch<React.SetStateAction<ethers.Contract | null>>;
 }
 
 const initialContext = {
-  account: "",
-  setAccount: (account: string) => {},
+  wallet: { accounts: ["none"], balance: "" },
+  setWallet: (wallet: walletType) => {},
   contract: null,
   setContract: (contract: ethers.Contract)=>{}
 } as ContextType
 
 export const TokenContext = createContext(initialContext);
 
+interface ProviderProps {
+  children: ReactNode;
+};
+
 export const ContextProvider = ({ children }: ProviderProps) => {
-  const [account, setAccount] = useState<string>("none");
+  const [wallet, setWallet] = useState<walletType>({ accounts: ["none"], balance: "" });
 
   const [contract, setContract] = useState<ethers.Contract | null>(null);
 
   return (
-    <TokenContext.Provider value={{ account, setAccount, contract, setContract }}>
+    <TokenContext.Provider value={{ wallet, setWallet, contract, setContract }}>
       {children}
     </TokenContext.Provider>
   );
