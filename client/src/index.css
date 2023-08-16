@@ -160,3 +160,8 @@ body {
     }
   }
 }
+
+.partnersCard{
+  height: 80vh;
+  overflow-x: hidden;
+}

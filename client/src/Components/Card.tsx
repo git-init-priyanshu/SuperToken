@@ -3,15 +3,25 @@ import { useContext } from "react";
 
 import { TokenContext } from "../Context/TokenContext";
 interface cardProps {
+  sellerName: string;
+  sellerAddress: string;
   image: string;
   name: string;
-  price: string;
+  price: number;
+  tokenValue: number;
 }
 
-export default function Card({ image, name, price }: cardProps) {
+export default function Card({
+  sellerName,
+  sellerAddress,
+  image,
+  name,
+  price,
+  tokenValue,
+}: cardProps) {
   const modalRef = useRef(null);
 
-  const { contract } = useContext(TokenContext);
+  const { wallet, contract } = useContext(TokenContext);
 
   window.onclick = (event) => {
     const modal: any = modalRef.current;
@@ -28,16 +38,22 @@ export default function Card({ image, name, price }: cardProps) {
     modal.style.display = "block";
   };
 
-  const buyProduct = () => {
+  const buyProduct = async() => {
     console.log(`You bought the product ${name}`);
+
+    // Random change to get super tokens
+    if(!contract) return
+    const owner = await contract.owner();
+
+    //2% of the price or 50 tokens, whatever is smaller
+    const tokens = Math.min(Math.round(price * 0.02), 50);
+
+    await contract.issueTokens(owner, wallet.accounts[0], tokens)
+
     toggleModal();
   };
   const buyWithSuperToken = async () => {
-    // These two values has to change
-    const sellerAddress = "0xF51Cb8b7fFF47c28E31E163Ab10b9f3CC6389618";
-    const price = 1;
-
-    contract && (await contract.useTokens(sellerAddress, price));
+    contract && (await contract.useTokens(sellerAddress, tokenValue));
 
     toggleModal();
   };
@@ -71,7 +87,7 @@ export default function Card({ image, name, price }: cardProps) {
         </div>
       </div>
 
-      <div className="bg-neutral-700 bg-opacity-80 rounded">
+      <div className="bg-neutral-700 bg-opacity-80 rounded overflow-hidden">
         <div>
           <img
             className="thumbnail rounded rounded-b-none"
@@ -80,8 +96,11 @@ export default function Card({ image, name, price }: cardProps) {
           />
         </div>
         <div className=" px-3 py-2">
-          <p className=" my-1">{name}</p>
-          <p className=" my-1">{price}</p>
+          <div className=" my-1 flex justify-between overflow-hidden">
+            <p>{name}</p>
+            <p className=" font-light">{sellerName}</p>
+          </div>
+          <p className=" my-1">₹ {price}</p>
           <div className=" flex justify-between">
             <button
               className=" bg-orange-500 px-2 rounded-sm"
