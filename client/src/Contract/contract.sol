@@ -16,6 +16,7 @@
         // Partner struct to store partner information
         struct Partner {
             bool exists;
+            address address_;
             uint32 pendingTokens;
         }
 

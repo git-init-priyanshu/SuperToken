@@ -38,7 +38,7 @@ export const ContextProvider = ({ children }: ProviderProps) => {
 
   const [contract, setContract] = useState<ethers.Contract | null>(null);
 
-  const [partners, setPartners] = useState<string[]>([""]);
+  const [partners, setPartners] = useState<string[]>([]);
 
   return (
     <TokenContext.Provider

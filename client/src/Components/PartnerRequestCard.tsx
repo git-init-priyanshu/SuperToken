@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
+import { TokenContext } from "../Context/TokenContext";
 import { contractProp } from "../App";
 
 export default function PartnerRequestCard({ contract }: contractProp) {
-  const [partners, setPartners] = useState<string[]>([]);
-
-  useEffect(() => {
-    const getAllPartners = async () => {
-      const partners = await contract?.getAllPartners();
-      setPartners(partners);
-    };
-    contract && getAllPartners();
-  }, [contract]);
+  const {partners} = useContext(TokenContext);
 
   const addPartner = async (partner: string) => {
     contract && (await contract.addAsPartner(partner));
