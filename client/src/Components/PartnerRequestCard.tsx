@@ -1,10 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 
 import { TokenContext } from "../Context/TokenContext";
 import { contractProp } from "../App";
 
 export default function PartnerRequestCard({ contract }: contractProp) {
-  const {partners} = useContext(TokenContext);
+  const { partners } = useContext(TokenContext);
 
   const addPartner = async (partner: string) => {
     contract && (await contract.addAsPartner(partner));
@@ -16,7 +16,7 @@ export default function PartnerRequestCard({ contract }: contractProp) {
       {partners.map((partner) => {
         return (
           <div key={partner} className="flex gap-2 my-2 justify-between">
-            <div className="rounded w-full p-2 bg-neutral-700 bg-opacity-90">
+            <div className="rounded w-full p-2 bg-neutral-900 bg-opacity-40">
               {partner}
             </div>
             <button

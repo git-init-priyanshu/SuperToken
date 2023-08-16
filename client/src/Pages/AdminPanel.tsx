@@ -1,13 +1,10 @@
 import { useState, useContext, useEffect } from "react";
-import { ethers } from "ethers";
 
-import { TokenContext } from "../Context/TokenContext";
 import PartnerRequestCard from "../Components/PartnerRequestCard";
 import PartnerCard from "../Components/PartnerCard";
 import { contractProp } from "../App";
 
 export default function AdminPanel({ contract }: contractProp) {
-  const { partners } = useContext(TokenContext);
 
   interface tokenTypes {
     name: string;
