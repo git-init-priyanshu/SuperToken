@@ -5,7 +5,7 @@ import { contractProp } from "../App";
 
 export default function PartnerRequestCard({ contract }: contractProp) {
   const { partners } = useContext(TokenContext);
-
+console.log(partners)
   const addPartner = async (partner: string) => {
     contract && (await contract.addAsPartner(partner));
   };

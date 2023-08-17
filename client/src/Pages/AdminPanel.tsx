@@ -5,7 +5,6 @@ import PartnerCard from "../Components/PartnerCard";
 import { contractProp } from "../App";
 
 export default function AdminPanel({ contract }: contractProp) {
-
   interface tokenTypes {
     name: string;
     symbol: string;
@@ -21,6 +20,7 @@ export default function AdminPanel({ contract }: contractProp) {
     totalSupply: 0n,
     owner: "",
   });
+  // console.log(token);
 
   const getTokenDetails = async () => {
     const namePromise = contract?.name();
@@ -42,23 +42,29 @@ export default function AdminPanel({ contract }: contractProp) {
       totalSupplyPromise,
       ownerPromise,
     ]);
-
+    
     setToken({ name, symbol, decimal, totalSupply, owner });
   };
 
   useEffect(() => {
     getTokenDetails();
   }, [contract]);
-  console.log(typeof token.decimal);
+
   return (
     <>
-    {/* Improve CSS */}
+      {/* Improve CSS */}
       <div className="flex justify-between">
-        <p>{token.name}</p>
-        <p>{token.symbol}</p>
-        <p>{token.decimal.toString()}</p>
-        <p>{token.totalSupply.toString()}</p>
-        <p>{token.owner}</p>
+        {token.name != undefined ? (
+          <>
+            <p>{token.name}</p>
+            <p>{token.symbol}</p>
+            <p>{token.decimal.toString()}</p>
+            <p>{token.totalSupply.toString()}</p>
+            <p>{token.owner}</p>
+          </>
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex w-full gap-2 my-2">
         <PartnerRequestCard contract={contract} />

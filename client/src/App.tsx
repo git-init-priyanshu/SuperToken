@@ -36,7 +36,7 @@ function App() {
   
       // Getting the deployed contract
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      console.log("hello")
+
       setContract(contract);
     }
     !contract && getContract();
