@@ -53,7 +53,7 @@ export default function Card({
     toggleModal();
   };
   const buyWithSuperToken = async () => {
-    contract && (await contract.useTokens(sellerAddress, tokenValue));
+    contract && (await contract.useTokens(sellerAddress, 10, 10));
 
     toggleModal();
   };

@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toast } from "react-hot-toast";
 import _ from "lodash";
 
 import { TokenContext } from "../Context/TokenContext";
@@ -9,7 +10,7 @@ import data from "../Data/data";
 import { contractProp } from "../App";
 
 export default function Home({ contract }: contractProp) {
-  const { partners, setPartners, wallet } = useContext(TokenContext);
+  const { wallet } = useContext(TokenContext);
   const [isPartner, setIsPartner] = useState<Boolean>(false);
   const [isAdmin, setIsAdmin] = useState<Boolean>(false);
 
@@ -30,15 +31,12 @@ export default function Home({ contract }: contractProp) {
     checkForPartner();
   }, [contract, wallet]);
 
-  const becomePartner = () => {
-    const accountAddress = wallet.accounts[0];
-
-    const newArr = partners.concat([accountAddress]);
-
-    console.log(partners);
-
-    if (partners[0] == "") return setPartners(newArr.slice(1, newArr.length));
-    setPartners(newArr);
+  const becomePartner = async () => {
+    contract && toast.promise(contract.askForPartnership(), {
+      loading: "Sending Request...",
+      success: <b>Request Sent</b>,
+      error: <b>Some error occured</b>,
+    });
   };
 
   const handleOnClick = async () => {
@@ -48,6 +46,9 @@ export default function Home({ contract }: contractProp) {
 
   return (
     <>
+      <div>
+        <Toaster position="bottom-center" reverseOrder={false} />
+      </div>
       <Navbar contract={contract} />
 
       <div>

@@ -13,42 +13,23 @@
         event ApproveToken(address indexed partner, uint amount);
         event TokenUsed(address indexed by, uint amount);
 
-        // Partner struct to store partner information
-        struct Partner {
-            bool exists;
-            address address_;
-            uint32 pendingTokens;
-        }
-
-        // Customers and Partners mapping
-        mapping(address => uint) public customers;
-        mapping(address => uint) public partners;
-
+        // Partner
+        address[] public requestForPartner;
         address[] public allPartners;
+
+        mapping(address => uint) public partnerAsk;
 
         constructor(uint256 _initialSupply) ERC20("SuperToken", "STK") {
             _mint(owner(), _initialSupply);
+            increaseAllowance(owner(), _initialSupply);
         }
 
-        // Modifier to ensure only authorized partners can call a function
-        modifier onlyPartner() {
-            require(_isPartner(msg.sender), "You are not a partner");
-            _;
-        }
-
-        // Allows admin to add someone as a partner and allow them to issue some predetermined no. of tokens
-        function addAsPartner(address _address) external onlyOwner {
-            require(!_isPartner(_address), "Address is already a partner");
-
-            partners[_address] = 0;
-
-            allPartners.push(_address);
-
-            emit PartnerAdded(_address);
+        function mintTokens(uint _amt) public onlyOwner{
+            _mint(owner(), _amt);
         }
 
         // Check for partner
-        function _isPartner(address _checkAddress) private view returns (bool){
+        function isPartner(address _checkAddress) public view returns (bool){
             for (uint i=0; i<allPartners.length; i++){
                 if(_checkAddress == allPartners[i]){
                     return true;
@@ -57,45 +38,121 @@
             return false;
         }
 
+        // Modifier to ensure only authorized partners can call a function
+        modifier onlyPartner() {
+            require(isPartner(msg.sender), "You are not a partner");
+            _;
+        }
+
+        function askForPartnership() external {
+            require(!isPartner(msg.sender),"You are already a partner");
+            requestForPartner.push(msg.sender);
+        }
+
+        // Get all requests
+        function getAllRequests() public view onlyOwner returns(address[] memory){
+            return requestForPartner;
+        }
+
+        // Get index of element from an array
+        function _getIndex(address _address) private view returns(uint,bool){
+            for (uint i=0; i<requestForPartner.length; i++){
+                if(_address == requestForPartner[i]){
+                    return (i,true);
+                }
+            }
+            return (0,false);
+        }
+
+        // Remove the address from the array
+        function _removePartnershipRequest(address _address) private {
+            // Removing the address from the array
+            (uint index, bool isExists) = _getIndex(_address);
+            
+            require(isExists, "Invalid Address");
+            // replacing the element by last element
+            requestForPartner[index] = requestForPartner[requestForPartner.length -1];
+            // removing the last element
+            delete requestForPartner[requestForPartner.length -1];
+            requestForPartner.pop();
+        }
+
+        // Admin can reject the requests
+        function rejectRequest(address _address) external onlyOwner{
+            require(!isPartner(_address), "No request sent by the address");
+
+            _removePartnershipRequest(_address);
+        }
+
+        // Allows admin to add someone as a partner and allow them to issue some predetermined no. of tokens
+        function addAsPartner(address _address) external onlyOwner {
+            require(!isPartner(_address), "Address is already a partner");
+
+            partnerAsk[_address] = 0;
+
+            allPartners.push(_address);
+
+            _removePartnershipRequest(_address);
+
+            emit PartnerAdded(_address);
+        }
+
         // Get all partner addresses
-        function getAllPartners() public view returns (address[] memory) {
+        function getAllPartners() public view onlyOwner returns (address[] memory) {
             return allPartners;
         }
 
         // Partners can ask for tokens
         function askForTokens(uint32 _tokenAmount) external onlyPartner {
-            require(partners[msg.sender] == 0, "Request already pending");
+            require(partnerAsk[msg.sender] == 0, "Request already pending");
 
-            partners[msg.sender] = _tokenAmount;
+            partnerAsk[msg.sender] = _tokenAmount;
 
             emit TokenAsked(msg.sender, _tokenAmount);
         }
 
         // Owner approves and transfers requested tokens to partners
         function approveTokensToPartner(address _partner) external onlyOwner {
-            require(_isPartner(_partner), "Not a Partner");
-            require(partners[_partner] > 0, "Tokens already given");
+            require(isPartner(_partner), "Not a Partner");
+            require(partnerAsk[_partner] > 0, "Tokens already given");
 
-            _mint(_partner, partners[_partner]);
-            partners[_partner] = 0;
+            transfer(_partner, partnerAsk[_partner]);
 
-            emit ApproveToken(_partner, partners[_partner]);
+            // increasing allowance of the partner
+            increaseAllowance(_partner, partnerAsk[_partner]);
+
+            // decreasing allowance of the admin
+            decreaseAllowance(owner(), partnerAsk[_partner]);
+
+            partnerAsk[_partner] = 0;
+
+            emit ApproveToken(_partner, partnerAsk[_partner]);
         }
 
         // Issue tokens to a customer or partner
-        function issueTokens(address _from, address _to, uint32 _tokenAmount) external {
-            require(_from == owner() || _isPartner(_from), "Not Authorized");
+        function issueTokens( address _to, uint32 _tokenAmount) external {
+            require(msg.sender == owner() || isPartner(msg.sender), "Not Authorized");
 
-            _transfer(msg.sender, _to, _tokenAmount);
-            customers[_to] += _tokenAmount;
+            transfer( _to, _tokenAmount);
+
+            // increasing allwance of the customer
+            increaseAllowance(_to, _tokenAmount);
+
+            // decreasing allowance of the partner/admin
+            decreaseAllowance(msg.sender, _tokenAmount);
         }
 
         // Customers use these tokens
         function useTokens(address _toSeller, uint _price, uint _amt) external {
             require(_amt == _price, "Amount should be equal to the price");
 
-            _transfer(msg.sender, _toSeller, _amt);
-            customers[msg.sender] -= _amt;
+            transfer(_toSeller, _amt);
+
+            // decreasing allowance of the customer
+            decreaseAllowance(msg.sender, _amt);
+
+            // increasing allowance of the partner/admin
+            increaseAllowance(_toSeller, _amt);
 
             emit TokenUsed(msg.sender, _amt);
         }

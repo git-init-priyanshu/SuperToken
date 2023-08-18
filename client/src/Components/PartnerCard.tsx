@@ -19,6 +19,7 @@ export default function PartnerCard({ contract }: contractProp) {
     const getAllPartners = async () => {
       const partners = await contract?.getAllPartners();
 
+      // Getting requested tokens for each partner
       for (let i = 0; i < partners.length; i++) {
         const address = partners[i];
         const tokenAsk = getTokenAsk(address);

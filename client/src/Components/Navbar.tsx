@@ -1,13 +1,18 @@
 import { useState, useEffect, useContext } from "react";
+import {useNavigate} from 'react-router-dom'
 import detectEthereumProvider from "@metamask/detect-provider";
 
+import flipkartLogo from "../assets/Flipkart_logo.png";
+import superCoin from "../assets/superCoin.png";
 import { formatBalance } from "../Contract/utils/util";
 import metamask from "../assets/MetaMask_Fox.svg.png";
 import { TokenContext } from "../Context/TokenContext";
-import {contractProp} from '../App'
+import { contractProp } from "../App";
 
 export default function Navbar({ contract }: contractProp) {
   const { wallet, setWallet } = useContext(TokenContext);
+
+  const navigate = useNavigate();
 
   // const [account, setAccount] = useState<string | null>(null);
   const [tokenBalance, setTokenBalance] = useState<string>("0");
@@ -92,26 +97,32 @@ export default function Navbar({ contract }: contractProp) {
     <>
       <div className=" relative flex justify-between items-center h-16">
         <div className=" flex items-center gap-3">
-          {/* <img src={icon} alt="" className=" h-10" /> */}
-          <h1>FlipKart Grid 5.0</h1>
+          <img src={flipkartLogo} alt="" className=" h-10" />
+          <div className="flex align-baseline">
+            <h1>Grid 5.0</h1>
+          </div>
         </div>
 
-        {wallet.accounts.length > 0 && (
+        {/* {wallet.accounts.length > 0 && (
           <div className="account bg-neutral-700 bg-opacity-80 p-2 sm: top-16 lg: rounded-md  ">
             {wallet.accounts[0] !== "none"
               ? wallet.accounts[0]
               : "Account: none"}
           </div>
-        )}
+        )} */}
 
         <div className="flex items-center">
           {wallet.accounts[0] !== "none" ? (
             <div className=" flex">
-              <div className="rounded-md bg-neutral-700 bg-opacity-80 p-2 flex items-center rounded-r-none border-r border-neutral-500 ">
-                {tokenBalance} STK
+              <div className="rounded cursor-pointer bg-neutral-700 bg-opacity-80 p-2 px-3 flex items-center" onClick={()=> navigate("/history")}>
+                <span className="material-symbols-outlined">history</span>
+              </div>
+              <div className="rounded-md ml-2 bg-neutral-700 bg-opacity-80 p-2 flex items-center rounded-r-none border-r border-neutral-500 ">
+                {tokenBalance}
+                <img className=" ml-2 w-5" src={superCoin} alt="" />
               </div>
 
-              <div className="rounded-md bg-neutral-700 bg-opacity-80 p-2 flex items-center rounded-l-none hover:cursor-pointer">
+              <div className="rounded-md bg-neutral-700 bg-opacity-80 p-2 flex items-center rounded-l-none">
                 <div className=" circle"></div>
               </div>
             </div>

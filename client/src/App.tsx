@@ -12,6 +12,7 @@ import { ContextProvider } from "./Context/TokenContext";
 import Home from "./Pages/Home";
 import AdminPanel from "./Pages/AdminPanel";
 import PartnerPanel from "./Pages/PartnerPanel";
+import History from './Pages/History'
 import abi from "./Contract/abi.json";
 
 export interface contractProp{
@@ -22,7 +23,7 @@ function App() {
   // const { setContract } = useContext(TokenContext);
   const [contract, setContract] = useState<ethers.Contract | null>(null)
 
-  const contractAddress = "0x2AFebB6e117f224a0Dbb15C26812B2ab98c27581";
+  const contractAddress = "0x50e110c09ebd30319627d04872b5c2d8c2e1b939";
 
   useEffect(() => {
     const getContract = ()=>{
@@ -50,6 +51,7 @@ function App() {
         <Route index element={<Home contract={contract}/>} />
         <Route path="/admin" element={<AdminPanel contract={contract}/>} />
         <Route path="/partner" element={<PartnerPanel contract={contract}/>} />
+        <Route path="/history" element={<History contract={contract}/>} />
       </Route>
     )
   );

@@ -17,7 +17,7 @@ let data = [
     sellerAddress: "0xF51Cb8b7fFF47c28E31E163Ab10b9f3CC6389618",
     name: "Iphone",
     img: Iphone,
-    price: 0,
+    price: 100000,
     tokenValue: 1,
   },
 
