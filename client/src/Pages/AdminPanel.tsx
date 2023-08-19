@@ -91,6 +91,7 @@ export default function AdminPanel({ contract }: contractProp) {
             )}
           </tbody>
         </table>
+
       </div>
 
       <Token contract={contract} />
