@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
+// import { Toaster } from "react-hot-toast";
 
 import PartnerRequestCard from "../Components/PartnerRequestCard";
 import PartnerCard from "../Components/PartnerCard";
@@ -57,7 +57,7 @@ export default function AdminPanel({ contract }: contractProp) {
 
   return (
     <>
-      <Toaster position="bottom-center" reverseOrder={false} />
+      {/* <Toaster position="bottom-center" reverseOrder={false} /> */}
 
       <h1 className="text-center text-5xl mt-2 mb-2">Admin Panel</h1>
 

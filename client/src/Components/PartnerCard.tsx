@@ -17,21 +17,21 @@ export default function PartnerCard({ contract }: contractProp) {
     return ask.toString();
   };
 
-  // useEffect(() => {
-  //   const getAllPartners = async () => {
-  //     const partnersArr: string[] = await contract?.getAllPartners();
+  useEffect(() => {
+    const getAllPartners = async () => {
+      const partnersArr: string[] = await contract?.getAllPartners();
 
-  //     // Getting requested tokens for each partner
-  //     for (let i = 0; i < partnersArr.length; i++) {
-  //       const address: string = partnersArr[i];
-  //       const tokenAsk: string = await getTokenAsk(address);
+      // Getting requested tokens for each partner
+      for (let i = 0; i < partnersArr.length; i++) {
+        const address: string = partnersArr[i];
+        const tokenAsk: string = await getTokenAsk(address);
 
-  //       const newArr: partnerInterface[] = partners.concat([{ address, tokenAsk }]);
-  //       setPartners(newArr);
-  //     }
-  //   };
-  //   contract && getAllPartners();
-  // }, [contract]);
+        const newArr: partnerInterface[] = partners.concat([{ address, tokenAsk }]);
+        setPartners(newArr);
+      }
+    };
+    contract && getAllPartners();
+  }, [contract]);
 
   return (
     <div className="w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
