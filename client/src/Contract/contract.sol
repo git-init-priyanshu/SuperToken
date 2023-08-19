@@ -7,10 +7,14 @@
     contract SuperToken is ERC20, Ownable {
 
         // Events
+        event TokenMint(address indexed to, uint amount);
+        event RequestForPartnership(address _address);
+        event RequestRejected(address _address);
         event TokenTransferred(address indexed from, address indexed to, uint256 amount);
         event PartnerAdded(address indexed partner);
         event TokenAsked(address indexed by, uint amount);
         event ApproveToken(address indexed partner, uint amount);
+        event TokenIssued(address from, address to, uint amount);
         event TokenUsed(address indexed by, uint amount);
 
         // Partner
@@ -26,6 +30,8 @@
 
         function mintTokens(uint _amt) public onlyOwner{
             _mint(owner(), _amt);
+
+            emit TokenMint(owner(), _amt);
         }
 
         // Check for partner
@@ -38,15 +44,13 @@
             return false;
         }
 
-        // Modifier to ensure only authorized partners can call a function
-        modifier onlyPartner() {
-            require(isPartner(msg.sender), "You are not a partner");
-            _;
-        }
+        function askForPartnership(address _caller) external {
+            (,bool isExists) = _getIndex(_caller);
+            require(!isExists, "Already sent a request");
+            require(!isPartner(_caller),"You are already a partner");
+            requestForPartner.push(_caller);
 
-        function askForPartnership() external {
-            require(!isPartner(msg.sender),"You are already a partner");
-            requestForPartner.push(msg.sender);
+            emit RequestForPartnership(_caller);
         }
 
         // Get all requests
@@ -82,6 +86,8 @@
             require(!isPartner(_address), "No request sent by the address");
 
             _removePartnershipRequest(_address);
+
+            emit RequestRejected(_address);
         }
 
         // Allows admin to add someone as a partner and allow them to issue some predetermined no. of tokens
@@ -103,12 +109,13 @@
         }
 
         // Partners can ask for tokens
-        function askForTokens(uint32 _tokenAmount) external onlyPartner {
-            require(partnerAsk[msg.sender] == 0, "Request already pending");
+        function askForTokens(address _caller, uint32 _tokenAmount) external {
+            require(isPartner(_caller), "You are not a partner");
+            require(partnerAsk[_caller] == 0, "Request already pending");
 
-            partnerAsk[msg.sender] = _tokenAmount;
+            partnerAsk[_caller] = _tokenAmount;
 
-            emit TokenAsked(msg.sender, _tokenAmount);
+            emit TokenAsked(_caller, _tokenAmount);
         }
 
         // Owner approves and transfers requested tokens to partners
@@ -130,8 +137,8 @@
         }
 
         // Issue tokens to a customer or partner
-        function issueTokens( address _to, uint32 _tokenAmount) external {
-            require(msg.sender == owner() || isPartner(msg.sender), "Not Authorized");
+        function issueTokens(address _caller, address _to, uint32 _tokenAmount) external {
+            require(_caller == owner() || isPartner(_caller), "Not Authorized");
 
             transfer( _to, _tokenAmount);
 
@@ -139,21 +146,23 @@
             increaseAllowance(_to, _tokenAmount);
 
             // decreasing allowance of the partner/admin
-            decreaseAllowance(msg.sender, _tokenAmount);
+            decreaseAllowance(_caller, _tokenAmount);
+
+            emit TokenIssued(_caller, _to, _tokenAmount);
         }
 
         // Customers use these tokens
-        function useTokens(address _toSeller, uint _price, uint _amt) external {
+        function useTokens(address _caller,address _toSeller, uint _price, uint _amt) external {
             require(_amt == _price, "Amount should be equal to the price");
 
             transfer(_toSeller, _amt);
 
             // decreasing allowance of the customer
-            decreaseAllowance(msg.sender, _amt);
+            decreaseAllowance(_caller, _amt);
 
             // increasing allowance of the partner/admin
             increaseAllowance(_toSeller, _amt);
 
-            emit TokenUsed(msg.sender, _amt);
+            emit TokenUsed(_caller, _amt);
         }
     }

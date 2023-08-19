@@ -1,13 +1,15 @@
-import React from "react";
-import { ethers } from "ethers";
+import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
-interface partnerProps {
-  contract: ethers.Contract | null;
-}
+import { contractProp } from "../App";
 
-export default function PartnerPanel({ contract }: partnerProps) {
+export default function PartnerPanel({ contract }: contractProp) {
   const askForTokens = async (tokenAmount: number) => {
     contract && (await contract.askForTokens(tokenAmount));
   };
-  return <div>PartnerPanel</div>;
+  return (
+    <>
+      <Toaster position="bottom-center" reverseOrder={false} />
+    </>
+  );
 }

@@ -1,35 +1,37 @@
 import { useState, useEffect } from "react";
+import {v4 as uuidv4} from 'uuid'
 
 import { contractProp } from "../App";
 
 export default function PartnerCard({ contract }: contractProp) {
   interface partnerInterface {
     address: string;
-    tokenAsk: number;
+    tokenAsk: string;
   }
-  const [partners, setPartners] = useState<partnerInterface[] | null>(null);
+  const [partners, setPartners] = useState<partnerInterface[]>([]);
+  console.log(partners)
 
   const getTokenAsk = async (partner: string) => {
-    const ask: number = await contract?.partners(partner);
+    const ask: bigint = await contract?.partnerAsk(partner);
 
-    return ask;
+    return ask.toString();
   };
 
-  useEffect(() => {
-    const getAllPartners = async () => {
-      const partners = await contract?.getAllPartners();
+  // useEffect(() => {
+  //   const getAllPartners = async () => {
+  //     const partnersArr: string[] = await contract?.getAllPartners();
 
-      // Getting requested tokens for each partner
-      for (let i = 0; i < partners.length; i++) {
-        const address = partners[i];
-        const tokenAsk = getTokenAsk(address);
+  //     // Getting requested tokens for each partner
+  //     for (let i = 0; i < partnersArr.length; i++) {
+  //       const address: string = partnersArr[i];
+  //       const tokenAsk: string = await getTokenAsk(address);
 
-        const newArr = partners.concat([{ address, tokenAsk }]);
-        setPartners(newArr);
-      }
-    };
-    contract && getAllPartners();
-  }, [contract]);
+  //       const newArr: partnerInterface[] = partners.concat([{ address, tokenAsk }]);
+  //       setPartners(newArr);
+  //     }
+  //   };
+  //   contract && getAllPartners();
+  // }, [contract]);
 
   return (
     <div className="w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
@@ -38,20 +40,20 @@ export default function PartnerCard({ contract }: contractProp) {
         <table className="table w-full sm:table-auto  text-neutral-300">
           <thead className="justify-between text-left">
             <tr>
-              <th className="px-4 py-2 w-5/12">S no.</th>
-              <th className="px-4 py-2 w-5/12">Address</th>
-              <th className="px-4 py-2 w-5/12">Token Ask</th>
-              <th className="px-4 py-2 w-5/12">Send Tokens</th>
+              <th className="px-4 py-2">S no.</th>
+              <th className="px-4 py-2">Address</th>
+              <th className="px-4 py-2">Token Ask</th>
+              <th className="px-4 py-2">Send Tokens</th>
             </tr>
           </thead>
           <tbody>
             {partners &&
               partners.map((partner, index) => (
                 <tr key={partner.address} className="text-left">
-                  <td className="px-4 py-2 w-5/12 overflow-hidden">{index + 1}</td>
-                  <td className="px-4 py-2 w-5/12 overflow-hidden">{partner.address}</td>
-                  <td className="px-4 py-2 w-5/12 overflow-hidden">{partner.tokenAsk}</td>
-                  <td className="px-4 py-2 w-5/12 overflow-hidden">
+                  <td className="px-4 py-2">{index + 1}</td>
+                  <td className="px-4 py-2">{partner.address}</td>
+                  <td className="px-4 py-2">{partner.tokenAsk.toString()}</td>
+                  <td className="px-4 py-2">
                     <button>Send</button>
                   </td>
                 </tr>
