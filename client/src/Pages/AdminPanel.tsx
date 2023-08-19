@@ -53,14 +53,15 @@ export default function AdminPanel({ contract }: contractProp) {
   return (
     <>
       {/* Improve CSS */}
-      <div className="flex justify-between">
+      <div className="flex justify-between p-3 position:absolute">
         {token.name != undefined ? (
           <>
             <p>{token.name}</p>
             <p>{token.symbol}</p>
+            <div className="position:relative "><p>{token.owner}</p></div>
             <p>{token.decimal.toString()}</p>
             <p>{token.totalSupply.toString()}</p>
-            <p>{token.owner}</p>
+            
           </>
         ) : (
           ""

@@ -22,22 +22,22 @@ export default function PartnerRequestCard({ contract }: contractProp) {
   }
 
   return (
-    <div className="partnersCard overflow-scroll w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
+    <div className="w-1/2 px-4 py-2 overflow-y-auto rounded partnersCard bg-neutral-700 bg-opacity-80">
       <h1>Partners Request</h1>
       {requests.map((request) => {
         return (
-          <div key={request} className="flex gap-2 my-2 justify-between">
-            <div className="rounded w-full p-2 bg-neutral-900 bg-opacity-40">
+          <div key={request} className="flex justify-between gap-2 my-2">
+            <div className="w-full pt-2 text-center rounded bg-neutral-900 bg-opacity-40">
               {request}
             </div>
             <button
-              className="rounded p-2 bg-neutral-700 bg-opacity-80"
+              className="p-2 rounded bg-neutral-700 bg-opacity-80"
               onClick={() => addPartner(request)}
             >
               Add
             </button>
             <button
-              className="rounded p-2 bg-neutral-700 bg-opacity-80"
+              className="p-1 text-xs rounded bg-neutral-700 bg-opacity-80"
               onClick={() => removeRequest(request)}
             >
               Reject Request

@@ -3,6 +3,6 @@ import { contractProp } from '../App'
 
 export default function History({contract}: contractProp) {
   return (
-    <div>History</div>
-  )
+    <div className='w-full mt-3 text-xl text-center text-bold ' >History</div>
+  ) 
 }
