@@ -14,8 +14,8 @@
         event PartnerAdded(address indexed partner);
         event TokenAsked(address indexed by, uint amount);
         event ApproveToken(address indexed partner, uint amount);
-        event TokenIssued(address from, address to, uint amount);
-        event TokenUsed(address indexed by, uint amount);
+        event TokenIssued(address indexed from, address indexed to, uint amount);
+        event TokenUsed(address indexed by, address indexed to, uint amount);
 
         // Partner
         address[] public requestForPartner;
@@ -142,6 +142,11 @@
 
             transfer( _to, _tokenAmount);
 
+            // If _to is partner then tokenAsk = 0
+            if(isPartner(_to)){
+                partnerAsk[_to] = 0;
+            }
+
             // increasing allwance of the customer
             increaseAllowance(_to, _tokenAmount);
 
@@ -163,6 +168,6 @@
             // increasing allowance of the partner/admin
             increaseAllowance(_toSeller, _amt);
 
-            emit TokenUsed(_caller, _amt);
+            emit TokenUsed(_caller, _toSeller, _amt);
         }
     }

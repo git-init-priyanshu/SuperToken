@@ -23,7 +23,7 @@ function App() {
   // const { setContract } = useContext(TokenContext);
   const [contract, setContract] = useState<ethers.Contract | null>(null)
 
-  const contractAddress = "0x27bd0dcae3b30335514d81d1a1f16e0b5dbde9f9";
+  const contractAddress = "0x227c385a651d764c04f78243996d817b73aa5586";
 
   useEffect(() => {
     const getContract = ()=>{

@@ -34,6 +34,7 @@ export default function PartnerRequestCard({ contract }: contractProp) {
   return (
     <>
       <div className="partnersCard overflow-y-auto w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
+        <Toaster position="bottom-center" reverseOrder={false}/>
         <h1>Partners Request</h1>
         {requests.map((request) => {
           return (

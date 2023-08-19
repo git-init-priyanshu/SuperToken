@@ -43,11 +43,12 @@ export default function Token({ contract }: contractProp) {
 
     const owner: string = await contract?.owner();
 
-    contract && toast.promise(contract.issueTokens(owner, to, amount),{
-      loading: "Sending token...",
-      success: <b>Token Sent</b>,
-      error: <b>Some error occured</b>,
-    })
+    contract &&
+      toast.promise(contract.issueTokens(owner, to, amount), {
+        loading: "Sending token...",
+        success: <b>Token Sent</b>,
+        error: <b>Some error occured</b>,
+      });
 
     toggleModal();
   };
@@ -63,6 +64,23 @@ export default function Token({ contract }: contractProp) {
         className="fixed cursor-pointer z-10 p-2 bg-green-700 hover:bg-green-900 rounded right-10 bottom-10"
       >
         Send Token
+      </div>
+
+      {/* Mint token */}
+      <div className="flex gap-2 mt-4 mb-4">
+        <input
+          type="number"
+          className=" w-full outline-none p-2 bg-neutral-700 bg-opacity-80 border-b-2 border-neutral-400 hover:border-green-600 focus:border-green-600"
+          placeholder="Specify the number of tokens for minting."
+          value={input}
+          onChange={(e) => setInput(Number(e.target.value))}
+        />
+        <button
+          className=" w-40 rounded p-2 bg-green-700 hover:bg-green-900 bg-opacity-80"
+          onClick={() => mintToken(input)}
+        >
+          Mint Tokens
+        </button>
       </div>
 
       {/* New Doc Modal */}
@@ -98,22 +116,6 @@ export default function Token({ contract }: contractProp) {
             </form>
           </div>
         </div>
-      </div>
-
-      <div className="flex gap-2 mt-4 mb-4">
-        <input
-          type="number"
-          className=" w-full outline-none p-2 bg-neutral-700 bg-opacity-80 border-b-2 border-neutral-400 hover:border-green-600 focus:border-green-600"
-          placeholder="Specify the number of tokens for minting."
-          value={input}
-          onChange={(e) => setInput(Number(e.target.value))}
-        />
-        <button
-          className=" w-40 rounded p-2 bg-green-700 hover:bg-green-900 bg-opacity-80"
-          onClick={() => mintToken(input)}
-        >
-          Mint Tokens
-        </button>
       </div>
     </>
   );
