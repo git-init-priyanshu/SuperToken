@@ -34,10 +34,10 @@ export default function PartnerCard({ contract }: contractProp) {
   }, [contract]);
 
   return (
-    <div className="w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
+    <div className="w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80 overflow-y-scroll">
       Partners
-      <div className="memo bg-neutral-900 bg-opacity-40">
-        <table className="table w-full sm:table-auto  text-neutral-300">
+      <div className="memo bg-neutral-900 bg-opacity-40 overflow-scroll">
+        <table className="table w-full sm:table-auto  text-neutral-300 ">
           <thead className="justify-between text-left">
             <tr>
               <th className="px-4 py-2">S no.</th>
@@ -54,7 +54,7 @@ export default function PartnerCard({ contract }: contractProp) {
                   <td className="px-4 py-2">{partner.address}</td>
                   <td className="px-4 py-2">{partner.tokenAsk.toString()}</td>
                   <td className="px-4 py-2">
-                    <button>Send</button>
+                    <button className="bg-sky-700 hover:bg-sky-900 bg-opacity-80 p-2 rounded">Send</button>
                   </td>
                 </tr>
               ))}

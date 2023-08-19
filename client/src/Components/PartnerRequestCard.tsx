@@ -38,7 +38,7 @@ export default function PartnerRequestCard({ contract }: contractProp) {
         {requests.map((request) => {
           return (
             <div key={request} className="flex gap-2 my-2 justify-between">
-              <div className="rounded w-full pt-2 text-center bg-neutral-900 bg-opacity-40 overflow-x-scroll">
+              <div className="rounded w-full px-2 pt-2 text-center bg-neutral-900 bg-opacity-40 overflow-x-auto">
                 {request}
               </div>
               <button

@@ -96,7 +96,7 @@ export default function AdminPanel({ contract }: contractProp) {
 
       <Token contract={contract} />
 
-      <div className="flex w-full gap-2 my-2">
+      <div className="flex w-full gap-4 my-2">
         <PartnerRequestCard contract={contract} />
         <PartnerCard contract={contract} />
       </div>

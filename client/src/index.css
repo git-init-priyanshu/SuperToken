@@ -162,6 +162,7 @@ body {
 }
 
 .partnersCard{
-  height: 80vh;
+  height: 63vh;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
