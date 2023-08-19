@@ -32,7 +32,7 @@ export default function Home({ contract }: contractProp) {
   }, [contract, wallet]);
 
   const becomePartner = async () => {
-    contract && toast.promise(contract.askForPartnership(), {
+    contract && toast.promise(contract.askForPartnership(wallet.accounts[0]), {
       loading: "Sending Request...",
       success: <b>Request Sent</b>,
       error: <b>Some error occured</b>,
@@ -49,6 +49,7 @@ export default function Home({ contract }: contractProp) {
       <div>
         <Toaster position="bottom-center" reverseOrder={false} />
       </div>
+      
       <Navbar contract={contract} />
 
       <div>

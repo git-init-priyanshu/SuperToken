@@ -23,7 +23,7 @@ function App() {
   // const { setContract } = useContext(TokenContext);
   const [contract, setContract] = useState<ethers.Contract | null>(null)
 
-  const contractAddress = "0x50e110c09ebd30319627d04872b5c2d8c2e1b939";
+  const contractAddress = "0x27bd0dcae3b30335514d81d1a1f16e0b5dbde9f9";
 
   useEffect(() => {
     const getContract = ()=>{
@@ -51,7 +51,7 @@ function App() {
         <Route index element={<Home contract={contract}/>} />
         <Route path="/admin" element={<AdminPanel contract={contract}/>} />
         <Route path="/partner" element={<PartnerPanel contract={contract}/>} />
-        <Route path="/history" element={<History contract={contract}/>} />
+        <Route path="/history" element={<History/>} />
       </Route>
     )
   );
