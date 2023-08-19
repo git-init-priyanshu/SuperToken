@@ -33,12 +33,12 @@ export default function PartnerRequestCard({ contract }: contractProp) {
 
   return (
     <>
-      <div className="partnersCard overflow-scroll w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
+      <div className="partnersCard overflow-y-auto w-1/2 px-4 py-2 rounded bg-neutral-700 bg-opacity-80">
         <h1>Partners Request</h1>
         {requests.map((request) => {
           return (
             <div key={request} className="flex gap-2 my-2 justify-between">
-              <div className="rounded w-full p-2 bg-neutral-900 bg-opacity-40 overflow-x-scroll">
+              <div className="rounded w-full pt-2 text-center bg-neutral-900 bg-opacity-40 overflow-x-scroll">
                 {request}
               </div>
               <button
@@ -58,5 +58,6 @@ export default function PartnerRequestCard({ contract }: contractProp) {
         })}
       </div>
     </>
+
   );
 }

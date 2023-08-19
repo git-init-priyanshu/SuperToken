@@ -57,7 +57,7 @@ function App() {
   );
 
   return (
-    <div className="sm: mx-2 lg:mx-10 ">
+    <div className="mx-2 sm: lg:mx-10 ">
       <ContextProvider>
         <RouterProvider router={router} />
       </ContextProvider>

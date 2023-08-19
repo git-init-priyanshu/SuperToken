@@ -57,6 +57,7 @@ export default function AdminPanel({ contract }: contractProp) {
 
   return (
     <>
+
       <Toaster position="bottom-center" reverseOrder={false} />
 
       <h1 className="text-center text-5xl mt-2 mb-2">Admin Panel</h1>
@@ -91,6 +92,7 @@ export default function AdminPanel({ contract }: contractProp) {
             )}
           </tbody>
         </table>
+
       </div>
 
       <Token contract={contract} />

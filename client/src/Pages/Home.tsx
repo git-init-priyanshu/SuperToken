@@ -56,24 +56,24 @@ export default function Home({ contract }: contractProp) {
         {/* If admin -> show admin button, else -> show partner button */}
         {isAdmin ? (
           <button
-            className=" fixed rounded right-4 bottom-10 z-10 bg-green-400 p-2"
+            className="fixed z-10 p-2 bg-green-400 rounded  right-4 bottom-10"
             onClick={() => navigate("/admin")}
           >
             Admin Panel
           </button>
         ) : (
           <button
-            className=" fixed rounded right-4 bottom-10 bg-sky-500 p-2"
+            className="fixed p-2 rounded  right-4 bottom-10 bg-sky-500"
             onClick={handleOnClick}
           >
             {`${isPartner ? "Partner Panel" : "Become a Partner"}`}
           </button>
         )}
 
-        <div className="grid gap-4 sm: grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+        <div className="grid grid-cols-2 gap-4 sm: md:grid-cols-3 lg:grid-cols-4 ">
           {data.map((product) => {
             return (
-              <div className=" col-span-1" key={product.name}>
+              <div className="col-span-1 " key={product.name}>
                 <Card
                   sellerName={product.sellerName}
                   sellerAddress={product.sellerAddress}
