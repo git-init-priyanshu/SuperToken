@@ -81,6 +81,7 @@ export default function Home({ contract }: contractProp) {
                   name={product.name}
                   price={product.price}
                   tokenValue={product.tokenValue}
+                  contract={contract}
                 />
               </div>
             );

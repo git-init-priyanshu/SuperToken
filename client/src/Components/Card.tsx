@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useContext } from "react";
 
 import { TokenContext } from "../Context/TokenContext";
+import { ethers } from "ethers";
 interface cardProps {
   sellerName: string;
   sellerAddress: string;
@@ -9,6 +10,7 @@ interface cardProps {
   name: string;
   price: number;
   tokenValue: number;
+  contract: ethers.Contract | null;
 }
 
 export default function Card({
@@ -18,10 +20,11 @@ export default function Card({
   name,
   price,
   tokenValue,
+  contract,
 }: cardProps) {
   const modalRef = useRef(null);
 
-  const { wallet, contract } = useContext(TokenContext);
+  const { wallet } = useContext(TokenContext);
 
   window.onclick = (event) => {
     const modal: any = modalRef.current;
@@ -38,23 +41,31 @@ export default function Card({
     modal.style.display = "block";
   };
 
-  const buyProduct = async() => {
+  const buyProduct = async () => {
     console.log(`You bought the product ${name}`);
 
     // Random change to get super tokens
-    if(!contract) return
+    if (!contract) return;
     const owner = await contract.owner();
 
-    //2% of the price or 50 tokens, whatever is smaller
+    //2% of the price or 50 tokens, whatever is samller
     const tokens = Math.min(Math.round(price * 0.02), 50);
 
-    await contract.issueTokens(owner, wallet.accounts[0], tokens)
-
     toggleModal();
+
+    await contract.issueTokens(owner, wallet.accounts[0], tokens);
   };
   const buyWithSuperToken = async () => {
-    const amount:number = price;
-    contract && (await contract.useTokens(wallet.accounts[0], sellerAddress, amount, amount));
+    const tokenValue = 5;
+
+    const productPriceInToken = price / tokenValue;
+    contract &&
+      (await contract.useTokens(
+        wallet.accounts[0],
+        sellerAddress,
+        productPriceInToken,
+        productPriceInToken
+      ));
 
     toggleModal();
   };

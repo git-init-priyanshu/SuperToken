@@ -83,7 +83,7 @@ export default function Token({ contract }: contractProp) {
         </button>
       </div>
 
-      {/* New Doc Modal */}
+      {/* Modal */}
       <div id="myModal" className="modal" ref={modalRef}>
         <div className="modal-content relative">
           <span className="close" onClick={toggleModal}>
