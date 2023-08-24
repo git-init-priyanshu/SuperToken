@@ -28,10 +28,14 @@ function App() {
   useEffect(() => {
     const getContract = ()=>{
       // Getting provider
-      const providerURL: string = import.meta.env.VITE_QUICKNODE_URI;
+      // const providerURL: string = import.meta.env.VITE_QUICKNODE_URI;
+      const providerURL: string = process.env.VITE_QUICKNODE_URI!;
+
       const provider = ethers.getDefaultProvider(providerURL!);
       // Metamask private key
-      const privateKey: string = import.meta.env.VITE_PRIVATE_KEY;
+      // const privateKey: string = import.meta.env.VITE_PRIVATE_KEY;
+      const privateKey: string = process.env.VITE_PRIVATE_KEY!;
+
       // Getting signer
       const signer = new ethers.Wallet(privateKey!, provider);
   
