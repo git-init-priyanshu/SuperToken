@@ -46,7 +46,7 @@ function App() {
     }
     !contract && getContract();
 
-  }, [contract]);
+  }, [contract, process.env]);
 
   // Defining router
   const router = createBrowserRouter(
