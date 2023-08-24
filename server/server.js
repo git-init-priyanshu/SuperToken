@@ -55,6 +55,10 @@ provider.on(filter, (log, event) => {
 });
 
 // Available Routes
+app.get("/api/getEnvVariables", (req,res)=>{
+  res.json({"QUICKNODE_URI": process.env.QUICKNODE_URI, "PRIVATE_KEY": process.env.PRIVATE_KEY})
+})
+
 app.post("/api/history", (req, res) => {
   const { account } = req.body;
 
