@@ -32,7 +32,7 @@ const decode = (dataType, encodedData) => {
 };
 
 let filter = {
-  address: "0x227c385a651d764c04f78243996d817b73aa5586",
+  address: "0xade400fffa48494ee1be4859f20c781d73d8d5e3",
   topics: [getTxnHash("Transfer(address,address,uint256)")],
 };
 
@@ -58,20 +58,20 @@ provider.on(filter, (log, event) => {
 app.post("/api/history", (req, res) => {
   const { account } = req.body;
 
-  const historyArr = [];
+  let historyArr = [];
 
   historyArr = history.map((e) => {
     if (e.from === account) {
       return {
         status: "sent",
         address: e.to,
-        tokenAmount,
+        tokenAmount: e.tokenAmount,
       };
     } else {
       return {
         status: "received",
         address: e.from,
-        tokenAmount,
+        tokenAmount: e.tokenAmount,
       };
     }
   });

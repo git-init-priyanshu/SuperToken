@@ -26,7 +26,7 @@ let data = [
     sellerAddress: "0xF51Cb8b7fFF47c28E31E163Ab10b9f3CC6389618",
     name: "SonyHeadphones",
     img: SonyHeadphones,
-    price: 0,
+    price: 275,
     tokenValue: 1,
   },
 
@@ -44,8 +44,8 @@ let data = [
     sellerAddress: "0xF51Cb8b7fFF47c28E31E163Ab10b9f3CC6389618",
     name: "T-shirt",
     img: tshirt,
-    price: 0,
-    tokenValue: 1,
+    price: 100,
+    tokenValue: 20,
   },
 
   {

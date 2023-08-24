@@ -13,23 +13,24 @@ export default function History() {
   }
 
   const [history, setHistory] = useState<dataType[]>([]);
-
+console.log(history)
   useEffect(() => {
     interface responseType {
-      history: dataType[];
+      historyArr: dataType[];
     }
     const getHistroy = async () => {
-      const response: responseType = await axios.post(
+      const response = await axios.post(
         "http://localhost:4000/api/history",
         {
           account: wallet.accounts[0],
         }
       );
-
-      setHistory(response.history);
+      const data:responseType = response.data;
+      console.log(data)
+      setHistory(data.historyArr);
     };
     getHistroy();
-  }, []);
+  }, [wallet]);
 
   return (
     <>

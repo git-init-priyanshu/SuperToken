@@ -1,13 +1,13 @@
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 
-import { TokenContext } from "../Context/TokenContext";
+// import { TokenContext } from "../Context/TokenContext";
 import { contractProp } from "../App";
 
 export default function Token({ contract }: contractProp) {
   const modalRef = useRef(null);
 
-  const { wallet } = useContext(TokenContext);
+  // const { wallet } = useContext(TokenContext);
 
   window.onclick = (event) => {
     const modal: any = modalRef.current;

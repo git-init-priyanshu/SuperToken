@@ -19,6 +19,7 @@ export default function Card({
   image,
   name,
   price,
+  // @ts-ignore
   tokenValue,
   contract,
 }: cardProps) {

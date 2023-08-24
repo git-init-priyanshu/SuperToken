@@ -11,17 +11,13 @@ interface ContextType {
   setWallet: React.Dispatch<React.SetStateAction<walletType>>;
   contract: ethers.Contract | null;
   setContract: React.Dispatch<React.SetStateAction<ethers.Contract | null>>;
-  partners: string[];
-  setPartners: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const initialContext = {
   wallet: { accounts: ["none"], balance: "" },
-  setWallet: (wallet: walletType) => {},
+  setWallet: (_wallet: walletType) => {},
   contract: null,
-  setContract: (contract: ethers.Contract) => {},
-  partners: [""],
-  setPartners: (partners: string[]) => {},
+  setContract: (_contract: ethers.Contract) => {},
 } as ContextType;
 
 export const TokenContext = createContext(initialContext);
@@ -38,8 +34,6 @@ export const ContextProvider = ({ children }: ProviderProps) => {
 
   const [contract, setContract] = useState<ethers.Contract | null>(null);
 
-  const [partners, setPartners] = useState<string[]>([]);
-
   return (
     <TokenContext.Provider
       value={{
@@ -47,8 +41,6 @@ export const ContextProvider = ({ children }: ProviderProps) => {
         setWallet,
         contract,
         setContract,
-        partners,
-        setPartners,
       }}
     >
       {children}

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { contractProp } from "../App";
 import { Toaster, toast } from "react-hot-toast";
-import { v4 as uuidv4 } from 'uuid';
 
 export default function PartnerRequestCard({ contract }: contractProp) {
   const [requests, setRequests] = useState<string[]>([]);
