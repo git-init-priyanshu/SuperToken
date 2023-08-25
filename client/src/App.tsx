@@ -38,6 +38,7 @@ function App() {
         // "http://localhost:4000/api/getEnvVariables"
         "https://supertoken-backend-zu8o.onrender.com/api/getEnvVariables"
       );
+      console.log(response.data);
       setQUICKNODE_URI(response.data.QUICKNODE_URI);
       setPRIVATE_KEY(response.data.PRIVATE_KEY);
     };
