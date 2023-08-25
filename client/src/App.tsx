@@ -21,49 +21,43 @@ export interface contractProp {
 }
 
 function App() {
-  // const { setContract } = useContext(TokenContext);
+  const [contract, setContract] = useState<ethers.Contract | null>(null);
 
-  const [QUICKNODE_URI, setQUICKNODE_URI] = useState(
-    import.meta.env.VITE_QUICKNODE_URI
-  );
-  const [PRIVATE_KEY, setPRIVATE_KEY] = useState(
-    import.meta.env.VITE_PRIVATE_KEY
-  );
+  const contractAddress = "0xade400fffa48494ee1be4859f20c781d73d8d5e3";
+
+  const getContract = (
+    QUICKNODE_URI: string = import.meta.env.VITE_QUICKNODE_URI,
+    PRIVATE_KEY: string = import.meta.env.VITE_PRIVATE_KEY
+  ) => {
+    // Getting provider
+    const provider = ethers.getDefaultProvider(QUICKNODE_URI!);
+
+    // Getting signer
+    const signer = new ethers.Wallet(PRIVATE_KEY!, provider);
+
+    // Getting the deployed contract
+    const contract = new ethers.Contract(contractAddress, abi, signer);
+
+    setContract(contract);
+  };
 
   // Getting env variables while in production
   useEffect(() => {
+    console.log(import.meta.env.MODE);
     if (import.meta.env.DEV) return;
     const getEnvVariables = async () => {
       const response = await axios.get(
         // "http://localhost:4000/api/getEnvVariables"
         "https://supertoken-backend-zu8o.onrender.com/api/getEnvVariables"
       );
-      console.log(response.data);
-      setQUICKNODE_URI(response.data.QUICKNODE_URI);
-      setPRIVATE_KEY(response.data.PRIVATE_KEY);
+
+      const QUICKNODE_URI = response.data.QUICKNODE_URI;
+      const PRIVATE_KEY = response.data.PRIVATE_KEY;
+
+      getContract(QUICKNODE_URI, PRIVATE_KEY);
     };
     getEnvVariables();
   }, []);
-
-  const [contract, setContract] = useState<ethers.Contract | null>(null);
-
-  const contractAddress = "0xade400fffa48494ee1be4859f20c781d73d8d5e3";
-
-  useEffect(() => {
-    const getContract = () => {
-      // Getting provider
-      const provider = ethers.getDefaultProvider(QUICKNODE_URI);
-
-      // Getting signer
-      const signer = new ethers.Wallet(PRIVATE_KEY, provider);
-
-      // Getting the deployed contract
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-
-      setContract(contract);
-    };
-    !contract && getContract();
-  }, [contract, QUICKNODE_URI, PRIVATE_KEY]);
 
   // Defining router
   const router = createBrowserRouter(
