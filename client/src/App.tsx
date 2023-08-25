@@ -35,7 +35,8 @@ function App() {
     if (import.meta.env.DEV) return;
     const getEnvVariables = async () => {
       const response = await axios.get(
-        "http://localhost:4000/api/getEnvVariables"
+        // "http://localhost:4000/api/getEnvVariables"
+        "https://supertoken-backend-zu8o.onrender.com/api/getEnvVariables"
       );
       setQUICKNODE_URI(response.data.QUICKNODE_URI);
       setPRIVATE_KEY(response.data.PRIVATE_KEY);
