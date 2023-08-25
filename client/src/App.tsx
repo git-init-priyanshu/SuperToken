@@ -63,7 +63,7 @@ function App() {
       setContract(contract);
     };
     !contract && getContract();
-  }, [contract]);
+  }, [contract, QUICKNODE_URI, PRIVATE_KEY]);
 
   // Defining router
   const router = createBrowserRouter(
