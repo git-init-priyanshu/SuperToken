@@ -9,10 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
+  "devDependencies": {},
   "dependencies": {
+    "nodemon": "^3.0.1",
     "abi-decoder": "^2.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
